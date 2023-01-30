@@ -1,25 +1,72 @@
-// const firebaseConfig = {
-//   apiKey: "AIzaSyBog26Fv1Etpqnso6DpbZhMSYQRuGaYtMI",
-//   authDomain: "foodie-app-30c78.firebaseapp.com",
-//   projectId: "foodie-app-30c78",
-//   storageBucket: "foodie-app-30c78.appspot.com",
-//   messagingSenderId: "749033509302",
-//   appId: "1:749033509302:web:802a266763fb048a81b117",
-//   measurementId: "G-4J5FL2D57H"
-// };
-
+import 'package:admin_panel/screens/home.dart';
+import 'package:admin_panel/screens/promotion.dart';
+import 'package:admin_panel/screens/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 
-List list1 = [
-  "Label 1",
-  "Label 2",
-  "Label 3",
+FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+String adminId = "RXNiDLAgNF7ERdi78mJo";
+
+List screensLabel = [
+  "Main",
+  "Users",
+  "Promotions",
+  "Restaurants",
+];
+List screens = [
+  const Home(),
+  User(),
+  Promotion(),
+  Text("Restaurants"),
 ];
 
-List users = [
-  "users",
-];
+// TextField(
+//           controller: locationController,
+//         ),
+//         const SizedBox(
+//           height: 20,
+//         ),
+//         ElevatedButton(
+//             onPressed: () async {
+//               final locationModel =
+//                   LocationModel(locationName: locationController.text);
 
-//firebase
+//               await LocationFirestoreDb.addLocation(locationModel);
+//               locationController.clear();
+//             },
+//             child: const Text("Add")),
+//         const SizedBox(
+//           height: 20,
+//         ),
+//         const Text("Location List"),
+//         const SizedBox(
+//           height: 20,
+//         ),
+//         GetX<LocationController>(
+//             init: Get.put<LocationController>(LocationController()),
+//             builder: (LocationController locationController) {
+//               return Flexible(
+//                   child: ListView.builder(
+//                       physics: NeverScrollableScrollPhysics(),
+//                       shrinkWrap: true,
+//                       itemCount: locationController.location.length,
+//                       itemBuilder: (BuildContext context, int index) {
+//                         // print(locationController.location[index].locationId);
+//                         final locationModel0 =
+//                             locationController.location[index];
 
-var firebaseFirestore = FirebaseFirestore.instance;
+//                         return Row(
+//                           children: [
+//                             Text(locationModel0.locationName),
+//                             IconButton(
+//                                 onPressed: () {
+//                                   LocationFirestoreDb.deleteLocation(
+//                                       locationModel0.locationId!);
+//                                 },
+//                                 icon: Icon(Icons.delete)),
+//                           ],
+//                         );
+//                       }));
+//             }),
