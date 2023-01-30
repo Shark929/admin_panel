@@ -1,14 +1,12 @@
-import 'package:admin_panel/constants/constants.dart';
 import 'package:admin_panel/constants/promotion_firestore_db.dart';
 import 'package:admin_panel/controller/promotion_controller.dart';
 import 'package:admin_panel/models/promotion_model.dart';
 import 'package:admin_panel/widgets/data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 
 class Promotion extends StatefulWidget {
-  Promotion({super.key});
+  const Promotion({super.key});
 
   @override
   State<Promotion> createState() => _PromotionState();
@@ -22,7 +20,7 @@ class _PromotionState extends State<Promotion> {
   TextEditingController descriptionController = TextEditingController();
 
   TextEditingController codeController = TextEditingController();
-
+  TextEditingController searchPromotionController = TextEditingController();
   void showPromotionDetails(PromotionModel model) {
     showDialog(
         context: context,
@@ -215,18 +213,28 @@ class _PromotionState extends State<Promotion> {
                 ),
                 const Spacer(),
                 Container(
-                  width: 150,
-                  height: 30,
+                  width: 200,
+                  // height: 30,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                  ),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Search"),
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  alignment: Alignment.center,
+                  child: TextField(
+                      controller: searchPromotionController,
+                      onChanged: (value) {
+                        setState(() {});
+                      },
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.search,
+                        ),
+                        hintText: "Search promotion",
+                        border: InputBorder.none,
+                      )),
                 ),
               ],
             ),
@@ -244,37 +252,75 @@ class _PromotionState extends State<Promotion> {
             const SizedBox(
               height: 10,
             ),
-            Container(
-              height: 500,
-              color: Colors.white,
-              child: GetX<PromotionController>(
-                  init: Get.put(PromotionController()),
-                  builder: (PromotionController promotionController) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: promotionController.promotion.length,
-                      itemBuilder: (context, index) {
-                        final promotionModel0 =
-                            promotionController.promotion[index];
-                        return Material(
-                          type: MaterialType.transparency,
-                          child: ListTile(
-                            hoverColor: Colors.amber,
-                            onTap: () {
-                              showPromotionDetails(promotionModel0);
+            searchPromotionController.text.isNotEmpty
+                ? Container(
+                    height: 500,
+                    color: Colors.white,
+                    child: GetX<PromotionController>(
+                        init: Get.put(PromotionController()),
+                        builder: (PromotionController promotionController) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: promotionController.promotion.length,
+                            itemBuilder: (context, index) {
+                              final promotionModel0 =
+                                  promotionController.promotion[index];
+                              if (searchPromotionController.text.contains(
+                                  promotionModel0.promotionLabel
+                                      .toLowerCase())) {
+                                return Material(
+                                  type: MaterialType.transparency,
+                                  child: ListTile(
+                                    hoverColor: Colors.amber,
+                                    onTap: () {
+                                      showPromotionDetails(promotionModel0);
+                                    },
+                                    title: DataWidget(
+                                      data1: promotionModel0.promotionLabel,
+                                      data2:
+                                          promotionModel0.promotionPercentage,
+                                      data3:
+                                          promotionModel0.promotionDescription,
+                                      data4: promotionModel0.promotionCode,
+                                    ),
+                                  ),
+                                );
+                              }
                             },
-                            title: DataWidget(
-                              data1: promotionModel0.promotionLabel,
-                              data2: promotionModel0.promotionPercentage,
-                              data3: promotionModel0.promotionDescription,
-                              data4: promotionModel0.promotionCode,
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }),
-            ),
+                          );
+                        }),
+                  )
+                : Container(
+                    height: 500,
+                    color: Colors.white,
+                    child: GetX<PromotionController>(
+                        init: Get.put(PromotionController()),
+                        builder: (PromotionController promotionController) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: promotionController.promotion.length,
+                            itemBuilder: (context, index) {
+                              final promotionModel0 =
+                                  promotionController.promotion[index];
+                              return Material(
+                                type: MaterialType.transparency,
+                                child: ListTile(
+                                  hoverColor: Colors.amber,
+                                  onTap: () {
+                                    showPromotionDetails(promotionModel0);
+                                  },
+                                  title: DataWidget(
+                                    data1: promotionModel0.promotionLabel,
+                                    data2: promotionModel0.promotionPercentage,
+                                    data3: promotionModel0.promotionDescription,
+                                    data4: promotionModel0.promotionCode,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }),
+                  ),
           ],
         ),
       ),
