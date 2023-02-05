@@ -5,12 +5,14 @@ class UserModel {
   late String username;
   late String email;
   late String phoneNum;
+  late String profilePicture;
 
   UserModel({
     this.userId,
     required this.username,
     required this.email,
     required this.phoneNum,
+    required this.profilePicture,
   });
 
   UserModel.fromDocumentSnapshot({required DocumentSnapshot documentSnapshot}) {
@@ -18,5 +20,6 @@ class UserModel {
     username = documentSnapshot['username'];
     email = documentSnapshot['email'];
     phoneNum = documentSnapshot['phoneNum'];
+    profilePicture = documentSnapshot['profilePicture'];
   }
 }

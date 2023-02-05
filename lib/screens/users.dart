@@ -1,9 +1,13 @@
+import 'package:admin_panel/constants/dashboard_firestore_db.dart';
 import 'package:admin_panel/constants/user_firestore_db.dart';
 import 'package:admin_panel/constants/vendor_firestore_db.dart';
+import 'package:admin_panel/constants/vendor_wallet_firestore_db.dart';
 import 'package:admin_panel/controller/user_controller.dart';
 import 'package:admin_panel/controller/vendor_controller.dart';
+import 'package:admin_panel/models/dashboard_model.dart';
 import 'package:admin_panel/models/user_model.dart';
 import 'package:admin_panel/models/vendor_model.dart';
+import 'package:admin_panel/models/vendor_wallet.dart';
 import 'package:admin_panel/widgets/data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -85,6 +89,45 @@ class _UserState extends State<User> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
+                  model.isAuthorise == false
+                      ? InkWell(
+                          onTap: () {
+                            VendorFirestoreDb.authoriseVendor(
+                                true, model.vendorId);
+                            final newBalanceModel = WalletBalanceModel(
+                                balance: "0", vendorId: model.vendorId!);
+                            VendorWalletFirestoreDb.addNewBalance(
+                                newBalanceModel, model.vendorId!);
+                            VendorWalletFirestoreDb.addNewRevenue(
+                                newBalanceModel, model.vendorId!);
+                            final dashboardModel = DashboardModel(
+                                totalOrders: "0",
+                                totalCustomers: "0",
+                                dineIn: "0",
+                                takeAway: "0",
+                                vendorId: model.vendorId!);
+                            DashboardFirestoreDb.addVendorDashboard(
+                                dashboardModel, model.vendorId!);
+                          },
+                          child: Container(
+                            width: 150,
+                            height: 50,
+                            padding: const EdgeInsets.all(8),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.amber, width: 2),
+                            ),
+                            child: const Text(
+                              "Authorise Vendor",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container()
                 ],
               ),
             ),
@@ -453,7 +496,8 @@ class _UserState extends State<User> {
                                                           .text,
                                                       phoneNum:
                                                           userPhoneController
-                                                              .text);
+                                                              .text,
+                                                      profilePicture: '');
 
                                                   // await VendorFirestoreDb
                                                   //     .addVendor(vendorModel);

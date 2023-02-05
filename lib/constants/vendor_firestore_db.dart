@@ -37,12 +37,7 @@ class VendorFirestoreDb {
 
   //update vendor
   static authoriseVendor(bool isAuthorise, documentId) {
-    firebaseFirestore
-        .collection('vendors')
-        .doc()
-        .collection('profiles')
-        .doc(documentId)
-        .update({
+    firebaseFirestore.collection('vendors').doc(documentId).update({
       'isAuthorise': isAuthorise,
     });
   }

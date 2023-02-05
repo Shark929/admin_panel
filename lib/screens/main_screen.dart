@@ -1,9 +1,5 @@
 import 'package:admin_panel/constants/constants.dart';
-import 'package:admin_panel/constants/location_firestore_db.dart';
-import 'package:admin_panel/controller/location_controller.dart';
-import 'package:admin_panel/models/location_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({super.key});
@@ -26,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: Row(
         children: [
-          Container(
+          SizedBox(
             width: size.width / 5 * 1,
             height: size.height,
             child: ListView.builder(
@@ -49,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
                   );
                 }),
           ),
-          Container(
+          SizedBox(
             width: size.width / 5 * 4,
             height: size.height,
             child: screens[screenIndex],

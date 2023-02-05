@@ -5,11 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class LocationFirestoreDb {
   //add function
   static addLocation(LocationModel locationModel) async {
-    await firebaseFirestore
-        .collection('admin')
-        .doc(adminId)
-        .collection('location')
-        .add({
+    await firebaseFirestore.collection('location').add({
       'locationName': locationModel.locationName,
     });
   }
@@ -17,8 +13,6 @@ class LocationFirestoreDb {
   //get function
   static Stream<List<LocationModel>> locationStream() {
     return firebaseFirestore
-        .collection("admin")
-        .doc(adminId)
         .collection('location')
         .snapshots()
         .map((QuerySnapshot querySnapshot) {

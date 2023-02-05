@@ -1,4 +1,5 @@
 import 'package:admin_panel/screens/home.dart';
+import 'package:admin_panel/screens/location.dart';
 import 'package:admin_panel/screens/promotion.dart';
 import 'package:admin_panel/screens/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,13 +14,15 @@ List screensLabel = [
   "Main",
   "Users",
   "Promotions",
+  "Locations",
   "Restaurants",
 ];
 List screens = [
   const Home(),
-  User(),
-  Promotion(),
-  Text("Restaurants"),
+  const User(),
+  const Promotion(),
+  const Location(),
+  const Text("Restaurants"),
 ];
 
 // TextField(
