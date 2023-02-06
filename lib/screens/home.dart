@@ -1,4 +1,5 @@
 import 'package:admin_panel/constants/vendor_wallet_firestore_db.dart';
+import 'package:admin_panel/controller/revenue_controller.dart';
 import 'package:admin_panel/controller/vendor_wallet_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,19 +44,38 @@ class Home extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
+                        const Text(
                           "Daily Sales",
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.w600),
                         ),
-                        Text(
-                          "Data",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey,
-                          ),
-                        ),
+                        GetX<RevenueController>(
+                            init: Get.put(RevenueController()),
+                            builder: (RevenueController rController) {
+                              var revenue = [];
+                              double data = 0.0;
+                              for (int i = 0;
+                                  i < rController.revenues.length;
+                                  i++) {
+                                if (revenue.isEmpty ||
+                                    revenue.length <
+                                        rController.revenues.length) {
+                                  revenue.add(rController.revenues[i].balance);
+                                }
+                              }
+
+                              for (var e in revenue) {
+                                data += double.parse(e);
+                              }
+                              return Text(
+                                "RM ${data.toStringAsFixed(2)}",
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.grey,
+                                ),
+                              );
+                            })
                       ],
                     ),
                   ),
@@ -71,14 +91,14 @@ class Home extends StatelessWidget {
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: const [
                         Text(
                           "Monthly Sales",
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          "Data",
+                          "0",
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
@@ -100,14 +120,14 @@ class Home extends StatelessWidget {
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: const [
                         Text(
                           "Yearly Sales",
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          "Data",
+                          "0",
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
