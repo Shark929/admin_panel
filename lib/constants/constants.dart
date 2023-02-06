@@ -1,5 +1,6 @@
 import 'package:admin_panel/screens/home.dart';
 import 'package:admin_panel/screens/location.dart';
+import 'package:admin_panel/screens/mall.dart';
 import 'package:admin_panel/screens/promotion.dart';
 import 'package:admin_panel/screens/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,6 +16,7 @@ List screensLabel = [
   "Users",
   "Promotions",
   "Locations",
+  "Malls",
   "Restaurants",
 ];
 List screens = [
@@ -22,6 +24,7 @@ List screens = [
   const User(),
   const Promotion(),
   const Location(),
+  const Mall(),
   const Text("Restaurants"),
 ];
 

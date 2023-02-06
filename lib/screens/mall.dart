@@ -1,22 +1,27 @@
 import 'package:admin_panel/constants/location_firestore_db.dart';
+import 'package:admin_panel/constants/mall_firestore_db.dart';
 import 'package:admin_panel/constants/promotion_firestore_db.dart';
 import 'package:admin_panel/controller/location_controller.dart';
+import 'package:admin_panel/controller/mall_controller.dart';
 import 'package:admin_panel/models/location_model.dart';
+import 'package:admin_panel/models/mall_model.dart';
 import 'package:admin_panel/widgets/data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Location extends StatefulWidget {
-  const Location({super.key});
+class Mall extends StatefulWidget {
+  const Mall({super.key});
 
   @override
-  State<Location> createState() => _LocationState();
+  State<Mall> createState() => _MallState();
 }
 
-class _LocationState extends State<Location> {
-  TextEditingController locationController = TextEditingController();
-  TextEditingController searchLocationController = TextEditingController();
-  void showPromotionDetails(LocationModel model) {
+class _MallState extends State<Mall> {
+  TextEditingController mallController = TextEditingController();
+  TextEditingController searchMallController = TextEditingController();
+  String dropdownLocation = "Bukit Bintang";
+
+  void showPromotionDetails(MallModel model) {
     showDialog(
         context: context,
         builder: (context) {
@@ -33,7 +38,7 @@ class _LocationState extends State<Location> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Location: ${model.locationName}",
+                    "mall: ${model.mall}",
                     style: const TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.w600,
@@ -47,8 +52,7 @@ class _LocationState extends State<Location> {
                               MaterialStatePropertyAll<Color>(Colors.red),
                         ),
                         onPressed: () {
-                          PromotionFirestoreDb.deletePromotion(
-                              model.locationId!);
+                          PromotionFirestoreDb.deletePromotion(model.mallId!);
                           Navigator.pop(context);
                         },
                         child: const Text("Delete")),
@@ -74,7 +78,7 @@ class _LocationState extends State<Location> {
               height: 30,
             ),
             const Text(
-              "Locations",
+              "Malls",
               style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
             ),
             const SizedBox(
@@ -101,16 +105,83 @@ class _LocationState extends State<Location> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         const Text(
-                                          "New Location",
+                                          "New Mall",
                                           style: TextStyle(
                                             fontSize: 36,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
+                                        SizedBox(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: Row(
+                                            children: [
+                                              const Text(
+                                                "Location: ",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 20,
+                                              ),
+                                              GetX<LocationController>(
+                                                init: Get.put(
+                                                    LocationController()),
+                                                builder: (LocationController
+                                                    lcController) {
+                                                  List<String> mylist = [];
+                                                  for (int i = 0;
+                                                      i <
+                                                          lcController
+                                                              .location.length;
+                                                      i++) {
+                                                    if (mylist.length <
+                                                            lcController
+                                                                .location
+                                                                .length ||
+                                                        mylist.isEmpty) {
+                                                      mylist.add(lcController
+                                                          .location[i]
+                                                          .locationName);
+                                                    }
+                                                  }
+                                                  return DropdownButton(
+                                                    // Initial Value
+                                                    value: dropdownLocation,
+
+                                                    // Down Arrow Icon
+                                                    icon: const Icon(Icons
+                                                        .keyboard_arrow_down),
+
+                                                    // Array list of items
+                                                    items: mylist
+                                                        .map((String items) {
+                                                      return DropdownMenuItem(
+                                                        value: items,
+                                                        child: Text(items),
+                                                      );
+                                                    }).toList(),
+                                                    // After selecting the desired option,it will
+                                                    // change button value to selected value
+                                                    onChanged:
+                                                        (String? newValue) {
+                                                      setState(() {
+                                                        dropdownLocation =
+                                                            newValue!;
+                                                      });
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                         TextField(
-                                          controller: locationController,
+                                          controller: mallController,
                                           decoration: const InputDecoration(
-                                              hintText: "Location name"),
+                                              hintText: "Mall name"),
                                         ),
                                         Row(
                                           mainAxisAlignment:
@@ -120,16 +191,14 @@ class _LocationState extends State<Location> {
                                               width: 150,
                                               child: ElevatedButton(
                                                   onPressed: () async {
-                                                    final locationModel =
-                                                        LocationModel(
-                                                            locationName:
-                                                                locationController
-                                                                    .text);
-
-                                                    await LocationFirestoreDb
-                                                        .addLocation(
-                                                            locationModel);
-                                                    locationController.clear();
+                                                    final mallModel = MallModel(
+                                                        mall:
+                                                            mallController.text,
+                                                        location:
+                                                            dropdownLocation);
+                                                    await MallFirestoreDb
+                                                        .addmall(mallModel);
+                                                    mallController.clear();
                                                     Navigator.pop(context);
                                                   },
                                                   child: const Text("Confirm")),
@@ -154,7 +223,7 @@ class _LocationState extends State<Location> {
                                   ),
                                 ));
                       },
-                      child: const Text("Add Location")),
+                      child: const Text("Add Mall")),
                 ),
                 const Spacer(),
                 Container(
@@ -169,7 +238,7 @@ class _LocationState extends State<Location> {
                   ),
                   alignment: Alignment.center,
                   child: TextField(
-                      controller: searchLocationController,
+                      controller: searchMallController,
                       onChanged: (value) {
                         setState(() {});
                       },
@@ -177,7 +246,7 @@ class _LocationState extends State<Location> {
                         prefixIcon: Icon(
                           Icons.search,
                         ),
-                        hintText: "Search location",
+                        hintText: "Search mall",
                         border: InputBorder.none,
                       )),
                 ),
@@ -189,26 +258,25 @@ class _LocationState extends State<Location> {
             const Padding(
               padding: EdgeInsets.all(10),
               child: DataWidget(
-                  data1: "Location", data2: "", data3: "", data4: ""),
+                  data1: "Location", data2: "Mall", data3: "", data4: ""),
             ),
             const SizedBox(
               height: 10,
             ),
-            searchLocationController.text.isNotEmpty
+            searchMallController.text.isNotEmpty
                 ? Container(
                     height: 500,
                     color: Colors.white,
-                    child: GetX<LocationController>(
-                        init: Get.put(LocationController()),
-                        builder: (LocationController locationController) {
+                    child: GetX<MallController>(
+                        init: Get.put(MallController()),
+                        builder: (MallController locationController) {
                           return ListView.builder(
                             shrinkWrap: true,
-                            itemCount: locationController.location.length,
+                            itemCount: locationController.mall.length,
                             itemBuilder: (context, index) {
-                              final location0 =
-                                  locationController.location[index];
-                              if (searchLocationController.text.contains(
-                                  location0.locationName.toLowerCase())) {
+                              final location0 = locationController.mall[index];
+                              if (searchMallController.text
+                                  .contains(location0.mall.toLowerCase())) {
                                 return Material(
                                   type: MaterialType.transparency,
                                   child: ListTile(
@@ -217,8 +285,8 @@ class _LocationState extends State<Location> {
                                       showPromotionDetails(location0);
                                     },
                                     title: DataWidget(
-                                      data1: location0.locationName,
-                                      data2: '',
+                                      data1: location0.location,
+                                      data2: location0.mall,
                                       data3: '',
                                       data4: '',
                                     ),
@@ -233,25 +301,24 @@ class _LocationState extends State<Location> {
                 : Container(
                     height: 500,
                     color: Colors.white,
-                    child: GetX<LocationController>(
-                        init: Get.put(LocationController()),
-                        builder: (LocationController locationController) {
+                    child: GetX<MallController>(
+                        init: Get.put(MallController()),
+                        builder: (MallController mallController) {
                           return ListView.builder(
                             shrinkWrap: true,
-                            itemCount: locationController.location.length,
+                            itemCount: mallController.mall.length,
                             itemBuilder: (context, index) {
-                              final promotionModel0 =
-                                  locationController.location[index];
+                              final mallModel0 = mallController.mall[index];
                               return Material(
                                 type: MaterialType.transparency,
                                 child: ListTile(
                                   hoverColor: Colors.amber,
                                   onTap: () {
-                                    showPromotionDetails(promotionModel0);
+                                    showPromotionDetails(mallModel0);
                                   },
                                   title: DataWidget(
-                                    data1: promotionModel0.locationName,
-                                    data2: '',
+                                    data1: mallModel0.location,
+                                    data2: mallModel0.mall,
                                     data3: '',
                                     data4: '',
                                   ),

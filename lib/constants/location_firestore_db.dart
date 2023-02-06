@@ -32,11 +32,6 @@ class LocationFirestoreDb {
 
   //delete function
   static deleteLocation(String locationId) {
-    firebaseFirestore
-        .collection('admin')
-        .doc(adminId)
-        .collection('location')
-        .doc(locationId)
-        .delete();
+    firebaseFirestore.collection('location').doc(locationId).delete();
   }
 }
