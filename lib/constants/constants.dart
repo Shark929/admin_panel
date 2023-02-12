@@ -11,7 +11,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
 String adminId = "RXNiDLAgNF7ERdi78mJo";
-
+String adminUsername = "Admin";
+String adminPassword = "123456";
 List screensLabel = [
   "Main",
   "Users",

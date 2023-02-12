@@ -1,3 +1,4 @@
+import 'package:admin_panel/screens/admin_login_screen.dart';
 import 'package:admin_panel/screens/main_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,12 +27,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Admin Panel',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MainScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Admin Panel',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: AdminLoginScreen());
   }
 }

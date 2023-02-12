@@ -209,103 +209,103 @@ class _UserState extends State<User> {
             ),
             Row(
               children: [
-                SizedBox(
-                  width: 150,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => Dialog(
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: MediaQuery.of(context).size.height,
-                                  margin: const EdgeInsets.symmetric(
-                                    horizontal: 50,
-                                    vertical: 100,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      const Text(
-                                        "New Vendor",
-                                        style: TextStyle(
-                                          fontSize: 36,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      TextField(
-                                        controller: resNameController,
-                                        decoration: const InputDecoration(
-                                            hintText: "Restaurant name"),
-                                      ),
-                                      TextField(
-                                        controller: emailController,
-                                        decoration: const InputDecoration(
-                                            hintText: "Email"),
-                                      ),
-                                      TextField(
-                                        controller: phoneController,
-                                        decoration: const InputDecoration(
-                                            hintText: "Phone"),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          SizedBox(
-                                            width: 150,
-                                            child: ElevatedButton(
-                                                onPressed: () async {
-                                                  final vendorModel =
-                                                      VendorModel(
-                                                          vendorId: "1",
-                                                          vendorRestaurantName:
-                                                              resNameController
-                                                                  .text,
-                                                          vendorEmail:
-                                                              emailController
-                                                                  .text,
-                                                          vendorPhone:
-                                                              phoneController
-                                                                  .text,
-                                                          vendorLocation: '',
-                                                          vendorMall: '',
-                                                          vendorImage: '',
-                                                          isAuthorise: false);
+                // SizedBox(
+                //   width: 150,
+                //   child: ElevatedButton(
+                //     onPressed: () {
+                //       showDialog(
+                //           context: context,
+                //           builder: (context) => Dialog(
+                //                 child: Container(
+                //                   width: MediaQuery.of(context).size.width,
+                //                   height: MediaQuery.of(context).size.height,
+                //                   margin: const EdgeInsets.symmetric(
+                //                     horizontal: 50,
+                //                     vertical: 100,
+                //                   ),
+                //                   child: Column(
+                //                     mainAxisAlignment:
+                //                         MainAxisAlignment.spaceEvenly,
+                //                     children: [
+                //                       const Text(
+                //                         "New Vendor",
+                //                         style: TextStyle(
+                //                           fontSize: 36,
+                //                           fontWeight: FontWeight.w600,
+                //                         ),
+                //                       ),
+                //                       TextField(
+                //                         controller: resNameController,
+                //                         decoration: const InputDecoration(
+                //                             hintText: "Restaurant name"),
+                //                       ),
+                //                       TextField(
+                //                         controller: emailController,
+                //                         decoration: const InputDecoration(
+                //                             hintText: "Email"),
+                //                       ),
+                //                       TextField(
+                //                         controller: phoneController,
+                //                         decoration: const InputDecoration(
+                //                             hintText: "Phone"),
+                //                       ),
+                //                       Row(
+                //                         mainAxisAlignment:
+                //                             MainAxisAlignment.spaceEvenly,
+                //                         children: [
+                //                           SizedBox(
+                //                             width: 150,
+                //                             child: ElevatedButton(
+                //                                 onPressed: () async {
+                //                                   final vendorModel =
+                //                                       VendorModel(
+                //                                           vendorId: "1",
+                //                                           vendorRestaurantName:
+                //                                               resNameController
+                //                                                   .text,
+                //                                           vendorEmail:
+                //                                               emailController
+                //                                                   .text,
+                //                                           vendorPhone:
+                //                                               phoneController
+                //                                                   .text,
+                //                                           vendorLocation: '',
+                //                                           vendorMall: '',
+                //                                           vendorImage: '',
+                //                                           isAuthorise: false);
 
-                                                  await VendorFirestoreDb
-                                                      .addVendor(vendorModel);
+                //                                   await VendorFirestoreDb
+                //                                       .addVendor(vendorModel);
 
-                                                  resNameController.clear();
-                                                  emailController.clear();
-                                                  phoneController.clear();
-                                                },
-                                                child: const Text("Confirm")),
-                                          ),
-                                          SizedBox(
-                                            width: 150,
-                                            child: ElevatedButton(
-                                                style: const ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStatePropertyAll<
-                                                          Color>(Colors.red),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text("Cancel")),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ));
-                    },
-                    child: const Text("Add new vendor"),
-                  ),
-                ),
+                //                                   resNameController.clear();
+                //                                   emailController.clear();
+                //                                   phoneController.clear();
+                //                                 },
+                //                                 child: const Text("Confirm")),
+                //                           ),
+                //                           SizedBox(
+                //                             width: 150,
+                //                             child: ElevatedButton(
+                //                                 style: const ButtonStyle(
+                //                                   backgroundColor:
+                //                                       MaterialStatePropertyAll<
+                //                                           Color>(Colors.red),
+                //                                 ),
+                //                                 onPressed: () {
+                //                                   Navigator.pop(context);
+                //                                 },
+                //                                 child: const Text("Cancel")),
+                //                           ),
+                //                         ],
+                //                       )
+                //                     ],
+                //                   ),
+                //                 ),
+                //               ));
+                //     },
+                //     child: const Text("Add new vendor"),
+                //   ),
+                // ),
                 const Spacer(),
                 Container(
                   width: 200,
@@ -408,6 +408,9 @@ class _UserState extends State<User> {
                                 return Material(
                                   type: MaterialType.transparency,
                                   child: ListTile(
+                                    tileColor: vendorModel0.isAuthorise == false
+                                        ? Colors.red
+                                        : Colors.white,
                                     hoverColor: Colors.amber,
                                     onTap: () {
                                       showVendorDetails(vendorModel0);
@@ -440,99 +443,99 @@ class _UserState extends State<User> {
             ),
             Row(
               children: [
-                SizedBox(
-                  width: 120,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => Dialog(
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: MediaQuery.of(context).size.height,
-                                  margin: const EdgeInsets.symmetric(
-                                    horizontal: 50,
-                                    vertical: 100,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      const Text(
-                                        "New User",
-                                        style: TextStyle(
-                                          fontSize: 36,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      TextField(
-                                        controller: usernameController,
-                                        decoration: const InputDecoration(
-                                            hintText: "Username"),
-                                      ),
-                                      TextField(
-                                        controller: userEmailController,
-                                        decoration: const InputDecoration(
-                                            hintText: "Email"),
-                                      ),
-                                      TextField(
-                                        controller: userPhoneController,
-                                        decoration: const InputDecoration(
-                                            hintText: "Phone"),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          SizedBox(
-                                            width: 150,
-                                            child: ElevatedButton(
-                                                onPressed: () async {
-                                                  final userModel = UserModel(
-                                                      username:
-                                                          usernameController
-                                                              .text,
-                                                      email: userEmailController
-                                                          .text,
-                                                      phoneNum:
-                                                          userPhoneController
-                                                              .text,
-                                                      profilePicture: '');
+                // SizedBox(
+                //   width: 120,
+                //   child: ElevatedButton(
+                //     onPressed: () {
+                //       showDialog(
+                //           context: context,
+                //           builder: (context) => Dialog(
+                //                 child: Container(
+                //                   width: MediaQuery.of(context).size.width,
+                //                   height: MediaQuery.of(context).size.height,
+                //                   margin: const EdgeInsets.symmetric(
+                //                     horizontal: 50,
+                //                     vertical: 100,
+                //                   ),
+                //                   child: Column(
+                //                     mainAxisAlignment:
+                //                         MainAxisAlignment.spaceEvenly,
+                //                     children: [
+                //                       const Text(
+                //                         "New User",
+                //                         style: TextStyle(
+                //                           fontSize: 36,
+                //                           fontWeight: FontWeight.w600,
+                //                         ),
+                //                       ),
+                //                       TextField(
+                //                         controller: usernameController,
+                //                         decoration: const InputDecoration(
+                //                             hintText: "Username"),
+                //                       ),
+                //                       TextField(
+                //                         controller: userEmailController,
+                //                         decoration: const InputDecoration(
+                //                             hintText: "Email"),
+                //                       ),
+                //                       TextField(
+                //                         controller: userPhoneController,
+                //                         decoration: const InputDecoration(
+                //                             hintText: "Phone"),
+                //                       ),
+                //                       Row(
+                //                         mainAxisAlignment:
+                //                             MainAxisAlignment.spaceEvenly,
+                //                         children: [
+                //                           SizedBox(
+                //                             width: 150,
+                //                             child: ElevatedButton(
+                //                                 onPressed: () async {
+                //                                   final userModel = UserModel(
+                //                                       username:
+                //                                           usernameController
+                //                                               .text,
+                //                                       email: userEmailController
+                //                                           .text,
+                //                                       phoneNum:
+                //                                           userPhoneController
+                //                                               .text,
+                //                                       profilePicture: '');
 
-                                                  // await VendorFirestoreDb
-                                                  //     .addVendor(vendorModel);
+                //                                   // await VendorFirestoreDb
+                //                                   //     .addVendor(vendorModel);
 
-                                                  await UserFirestoreDb.addUser(
-                                                      userModel);
-                                                  usernameController.clear();
-                                                  userEmailController.clear();
-                                                  userPhoneController.clear();
-                                                },
-                                                child: const Text("Confirm")),
-                                          ),
-                                          SizedBox(
-                                            width: 150,
-                                            child: ElevatedButton(
-                                                style: const ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStatePropertyAll<
-                                                          Color>(Colors.red),
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text("Cancel")),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ));
-                    },
-                    child: const Text("Add"),
-                  ),
-                ),
+                //                                   await UserFirestoreDb.addUser(
+                //                                       userModel);
+                //                                   usernameController.clear();
+                //                                   userEmailController.clear();
+                //                                   userPhoneController.clear();
+                //                                 },
+                //                                 child: const Text("Confirm")),
+                //                           ),
+                //                           SizedBox(
+                //                             width: 150,
+                //                             child: ElevatedButton(
+                //                                 style: const ButtonStyle(
+                //                                   backgroundColor:
+                //                                       MaterialStatePropertyAll<
+                //                                           Color>(Colors.red),
+                //                                 ),
+                //                                 onPressed: () {
+                //                                   Navigator.pop(context);
+                //                                 },
+                //                                 child: const Text("Cancel")),
+                //                           ),
+                //                         ],
+                //                       )
+                //                     ],
+                //                   ),
+                //                 ),
+                //               ));
+                //     },
+                //     child: const Text("Add"),
+                //   ),
+                // ),
                 const Spacer(),
                 Container(
                   width: 200,

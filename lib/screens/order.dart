@@ -1,4 +1,6 @@
 import 'package:admin_panel/controller/order_controller.dart';
+import 'package:admin_panel/controller/order_history_controller.dart';
+import 'package:admin_panel/models/order_history_model.dart';
 import 'package:admin_panel/models/order_model.dart';
 import 'package:admin_panel/widgets/data_widget.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +15,8 @@ class OrderScreen extends StatefulWidget {
 
 class _OrderScreenState extends State<OrderScreen> {
   TextEditingController locationController = TextEditingController();
-  TextEditingController searchLocationController = TextEditingController();
-  void showPromotionDetails(OrderModel model) {
+  TextEditingController searchNameController = TextEditingController();
+  void showPromotionDetails(MyCartModel model) {
     showDialog(
         context: context,
         builder: (context) {
@@ -31,7 +33,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Order: ${model.foodName}",
+                    "Order: ${model.itemName}",
                     style: const TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.w600,
@@ -98,7 +100,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                   alignment: Alignment.center,
                   child: TextField(
-                      controller: searchLocationController,
+                      controller: searchNameController,
                       onChanged: (value) {
                         setState(() {});
                       },
@@ -119,59 +121,43 @@ class _OrderScreenState extends State<OrderScreen> {
               padding: EdgeInsets.all(10),
               child: DataWidget(
                   data1: "Orders",
-                  data2: "Quantity",
-                  data3: "Total Price",
-                  data4: "Accepted/Rejected"),
+                  data2: "Item price",
+                  data3: "Quantity",
+                  data4: "Total price"),
             ),
             const SizedBox(
               height: 10,
             ),
-            searchLocationController.text.isNotEmpty
+            searchNameController.text.isNotEmpty
                 ? Container(
                     height: 500,
                     color: Colors.white,
-                    child: GetX<OrderController>(
-                        init: Get.put(OrderController()),
-                        builder: (OrderController oController) {
+                    child: GetX<OrderHistoryController>(
+                        init: Get.put(OrderHistoryController()),
+                        builder: (OrderHistoryController oController) {
                           return ListView.builder(
                             shrinkWrap: true,
-                            itemCount: oController.orderList.length,
+                            itemCount: oController.orderHistory.length,
                             itemBuilder: (context, index) {
-                              final location0 = oController.orderList[index];
-                              if (searchLocationController.text
-                                  .contains(location0.foodName.toLowerCase())) {
+                              final location0 = oController.orderHistory[index];
+                              if (searchNameController.text
+                                  .contains(location0.itemName.toLowerCase())) {
                                 double totalPrice = double.parse(
                                         location0.quantity.toString()) *
                                     double.parse(
-                                        location0.foodPrice.toString());
+                                        location0.itemPrice.toString());
                                 return Material(
                                   type: MaterialType.transparency,
                                   child: ListTile(
-                                    hoverColor: Colors.amber,
-                                    onTap: () {
-                                      showPromotionDetails(location0);
-                                    },
-                                    title: DataWidget(
-                                      data1: location0.foodName,
-                                      data2: location0.quantity.toString(),
-                                      data3:
-                                          "RM ${totalPrice.toStringAsFixed(2)}",
-                                      data4: location0.code == "1"
-                                          ? 'Customer make order'
-                                          : location0.code == "2"
-                                              ? "Vendor accepted order"
-                                              : location0.code == "3"
-                                                  ? "In progress"
-                                                  : location0.code == "4"
-                                                      ? "Completed"
-                                                      : location0.code == "5"
-                                                          ? "Closed"
-                                                          : location0.code ==
-                                                                  "6"
-                                                              ? "Rejected"
-                                                              : "",
-                                    ),
-                                  ),
+                                      hoverColor: Colors.amber,
+                                      onTap: () {
+                                        showPromotionDetails(location0);
+                                      },
+                                      title: DataWidget(
+                                          data1: location0.itemName,
+                                          data2: "RM ${location0.itemPrice}",
+                                          data3: "X${location0.quantity}",
+                                          data4: "RM ${location0.totalPrice}")),
                                 );
                               }
                               return const SizedBox();
@@ -182,49 +168,28 @@ class _OrderScreenState extends State<OrderScreen> {
                 : Container(
                     height: 500,
                     color: Colors.white,
-                    child: GetX<OrderController>(
-                        init: Get.put(OrderController()),
-                        builder: (OrderController oController) {
+                    child: GetX<OrderHistoryController>(
+                        init: Get.put(OrderHistoryController()),
+                        builder: (OrderHistoryController ohController) {
                           return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: oController.orderList.length,
-                            itemBuilder: (context, index) {
-                              final oModel = oController.orderList[index];
-                              double totalPrice =
-                                  double.parse(oModel.quantity.toString()) *
-                                      double.parse(oModel.foodPrice.toString());
-                              return Material(
-                                type: MaterialType.transparency,
-                                child: ListTile(
-                                  hoverColor: Colors.amber,
-                                  onTap: () {
-                                    showPromotionDetails(oModel);
-                                  },
-                                  title: DataWidget(
-                                    data1: oModel.foodName,
-                                    data2: oModel.quantity.toString(),
-                                    data3:
-                                        "RM ${totalPrice.toStringAsFixed(2)}",
-                                    data4: oModel.code == "1"
-                                        ? 'Customer make order'
-                                        : oModel.code == "2"
-                                            ? "Vendor accepted order"
-                                            : oModel.code == "3"
-                                                ? "In progress"
-                                                : oModel.code == "4"
-                                                    ? "Completed"
-                                                    : oModel.code == "5"
-                                                        ? "Closed"
-                                                        : oModel.code == "6"
-                                                            ? "Rejected"
-                                                            : "",
+                              shrinkWrap: true,
+                              itemCount: ohController.orderHistory.length,
+                              itemBuilder: (context, index) {
+                                final ohModel =
+                                    ohController.orderHistory[index];
+                                return Container(
+                                  margin: const EdgeInsets.only(
+                                    bottom: 10,
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        }),
-                  ),
+                                  child: ListTile(
+                                      title: DataWidget(
+                                          data1: ohModel.itemName,
+                                          data2: "RM ${ohModel.itemPrice}",
+                                          data3: "X${ohModel.quantity}",
+                                          data4: "RM ${ohModel.totalPrice}")),
+                                );
+                              });
+                        })),
           ],
         ),
       ),
